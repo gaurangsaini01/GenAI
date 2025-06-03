@@ -4,7 +4,6 @@ from google import genai
 from google.genai import types
 import os
 import json
-import time
 
 load_dotenv()
 
@@ -56,21 +55,14 @@ while True:
 
     # Validating using Gemini if step is "Think"
     if step == "Think":
-        
         gemini_response = geminiClient.models.generate_content(
             model="gemini-1.5-flash",  
             contents=f"Validate the following step: '{content}'",
         )
-
         validation_text = gemini_response.text.strip()
-
         print(f"✅ Gemini (Validate): {validation_text}")
-
         validation_json = {
             "step": "Validate",
             "content": validation_text
         }
         messages.append({"role": "assistant", "content": json.dumps(validation_json)})
-    
-    # Pause briefly to avoid rate limits
-    time.sleep(1)
