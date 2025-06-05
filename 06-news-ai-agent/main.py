@@ -24,7 +24,6 @@ def get_news(topic,category,ps=2):
     return news_list
         
 
-
 tools = {
     "get_news":get_news
 }
@@ -75,8 +74,6 @@ SYSTEM_PROMPT = f"""
     Output: {{"step":"observe","output":"1:Title:"Android phones getting cheaper" \n URL:https://url1.com\n2:Title:"android beats apple, gets even better with ai", url: https://url2.com\n"}}
     Output: {{"step":"output","content":"1:Title:"Android phones getting cheaper" \n URL:https://url1.com\n2:Title:"android beats apple, gets even better with ai", url: https://url2.com\n"}}
 
-
-
     Keep in mind you must not exceed these 5 steps . Only these 5 steps must be there . If no result found , simply say "No News Found"
 
         
@@ -91,7 +88,7 @@ messages.append({"role": "user", "content": query})
 
 while True:
     response = client.chat.completions.create(
-        model = "gpt-4.1",
+        model = "gpt-4o-mini",
         response_format={"type":"json_object"},
         messages = messages
     )
@@ -101,7 +98,6 @@ while True:
     step = parsed.get("step")   
     content = parsed.get("content")
 
-    print(messages,"\n")
 
     if step == "action" :
         news_list = tools[parsed.get("function")](parsed.get("topic"), parsed.get("category"),int(parsed.get("ps")))
